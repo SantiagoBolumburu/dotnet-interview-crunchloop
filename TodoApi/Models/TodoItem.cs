@@ -1,16 +1,18 @@
-namespace TodoApi.Models;
-
-public class TodoItem
+namespace TodoApi.Models
 {
-    public enum State
+    public class TodoItem
     {
-        todo,
-        doing,
-        donde
-    }
+        public enum State
+        {
+            todo,
+            doing,
+            donde
+        }
 
-    public long Id { get; set; }
-    public required string Name { get; set; }
-    public required string Description { get; set; }
-    public required State State { get; set; }
+        public long Id { get; set; }
+        public required string Name { get; set; }
+        public required string Description { get; set; }
+        public required State CurrentState { get; set; }
+        public required TodoList TodoList { get; set; }
+    }
 }

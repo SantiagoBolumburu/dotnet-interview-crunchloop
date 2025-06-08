@@ -7,4 +7,16 @@ public class TodoContext : DbContext
         : base(options) { }
 
     public DbSet<TodoList> TodoList { get; set; } = default!;
+    public DbSet<TodoItem> TodoItem { get; set; } = default!;
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<TodoList>()
+            .HasMany(c => c.TodoItems)
+            .WithOne(e => e.TodoList);
+
+        modelBuilder.Entity<TodoItem>()
+            .Property(c => c.CurrentState)
+            .HasConversion<string>();
+    }
 }

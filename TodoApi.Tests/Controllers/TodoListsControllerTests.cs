@@ -17,8 +17,8 @@ public class TodoListsControllerTests
 
     private void PopulateDatabaseContext(TodoContext context)
     {
-        context.TodoList.Add(new TodoList { Id = 1, Name = "Task 1" });
-        context.TodoList.Add(new TodoList { Id = 2, Name = "Task 2" });
+        context.TodoList.Add(new TodoList { Id = 1, Name = "Task 1", TodoItems = [] });
+        context.TodoList.Add(new TodoList { Id = 2, Name = "Task 2", TodoItems = [] });
         context.SaveChanges();
     }
 

@@ -60,7 +60,11 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoList>> PostTodoList(CreateTodoList payload)
         {
-            var todoList = new TodoList { Name = payload.Name };
+            var todoList = new TodoList
+            {
+                Name = payload.Name,
+                TodoItems = []
+            };
 
             _context.TodoList.Add(todoList);
             await _context.SaveChangesAsync();
