@@ -29,6 +29,16 @@ To run the TodoApi in your local environment:
 
 `dotnet run --project TodoApi`
 
+
+## Update Database
+
+Create Migration:
+` dotnet ef migrations add <MigrationName> --project TodoApi`
+
+Apply latest Migration:
+
+`dotnet ef database update --project TodoApi`
+
 ## Test
 
 To run tests:

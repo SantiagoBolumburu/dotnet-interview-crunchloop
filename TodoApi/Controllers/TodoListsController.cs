@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Dtos;
+using TodoApi.Mappers;
 using TodoApi.Models;
 
 namespace TodoApi.Controllers
@@ -18,23 +19,34 @@ namespace TodoApi.Controllers
 
         // GET: api/todolists
         [HttpGet]
-        public async Task<ActionResult<IList<TodoList>>> GetTodoLists()
+        public async Task<ActionResult<IList<OutTodoList>>> GetTodoLists()
         {
-            return Ok(await _context.TodoList.ToListAsync());
+            List<TodoList> todoLists = await _context.TodoList.Include(x => x.TodoItems).ToListAsync();
+            
+            List<OutTodoList> outTodoLists = [];
+
+            if (todoLists != null)
+            {
+                outTodoLists = todoLists.Select(x => TodoListMappper.ToOutDto(x)).ToList();
+            }
+
+            return Ok(outTodoLists);
         }
 
         // GET: api/todolists/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoList>> GetTodoList(long id)
+        public async Task<ActionResult<OutTodoList>> GetTodoList(long id)
         {
-            var todoList = await _context.TodoList.FindAsync(id);
+            var todoList = await _context.TodoList
+                .Include(x => x.TodoItems)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (todoList == null)
             {
                 return NotFound();
             }
 
-            return Ok(todoList);
+            return Ok(TodoListMappper.ToOutDto(todoList));
         }
 
         // PUT: api/todolists/5
@@ -52,7 +64,7 @@ namespace TodoApi.Controllers
             todoList.Name = payload.Name;
             await _context.SaveChangesAsync();
 
-            return Ok(todoList);
+            return Ok(TodoListMappper.ToOutDto(todoList));
         }
 
         // POST: api/todolists
@@ -69,7 +81,7 @@ namespace TodoApi.Controllers
             _context.TodoList.Add(todoList);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTodoList", new { id = todoList.Id }, todoList);
+            return CreatedAtAction("GetTodoList", new { id = todoList.Id }, TodoListMappper.ToOutDto(todoList));
         }
 
         // DELETE: api/todolists/5

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Dtos;
+using TodoApi.Mappers;
 using TodoApi.Models;
 
 namespace TodoApi.Controllers
@@ -16,81 +17,98 @@ namespace TodoApi.Controllers
             _context = context;
         }
 
-        // GET: api/todolists
+        // GET: api/todoitems
         [HttpGet]
-        public async Task<ActionResult<IList<TodoList>>> GetTodoLists()
+        public async Task<ActionResult<IList<OutTodoItem>>> GetTodoItem()
         {
-            return Ok(await _context.TodoList.ToListAsync());
+            List<TodoItem> todoItems = await _context.TodoItem.Include(x => x.TodoList).ToListAsync();
+
+            List<OutTodoItem> todoItemListOut = [];
+
+            if (todoItems != null)
+            {
+                todoItemListOut = todoItems.Select(x => TodoItemMappper.ToOutDto(x)).ToList();
+            }
+
+            return Ok(todoItemListOut);
         }
 
-        // GET: api/todolists/5
+        // GET: api/todoitems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoList>> GetTodoList(long id)
+        public async Task<ActionResult<OutTodoItem>> GetTodoItem(long id)
         {
-            var todoList = await _context.TodoList.FindAsync(id);
+            var todoItem = await _context.TodoItem
+                .Include(x => x.TodoList)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (todoList == null)
+            if (todoItem == null)
             {
                 return NotFound();
             }
 
-            return Ok(todoList);
+            return Ok(TodoItemMappper.ToOutDto(todoItem));
         }
 
-        // PUT: api/todolists/5
+        // PUT: api/todoitems/5
         // To protect from over-posting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutTodoList(long id, UpdateTodoList payload)
+        public async Task<ActionResult> PutTodoItem(long id, UpdateTodoItem payload)
         {
-            var todoList = await _context.TodoList.FindAsync(id);
+            var todoItem = await _context.TodoItem
+                .Include(x => x.TodoList)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (todoList == null)
+            if (todoItem == null)
             {
                 return NotFound();
             }
 
-            todoList.Name = payload.Name;
+            todoItem.Name = payload.Name;
+            todoItem.Description = payload.Description;
+            todoItem.Completed = payload.Completed;
+
             await _context.SaveChangesAsync();
 
-            return Ok(todoList);
+            return Ok(TodoItemMappper.ToOutDto(todoItem));
         }
 
-        // POST: api/todolists
+        // POST: api/todoitems
         // To protect from over-posting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TodoList>> PostTodoList(CreateTodoList payload)
+        public async Task<ActionResult<OutTodoItem>> PostTodoItem(CreateTodoItem payload)
         {
-            var todoList = new TodoList
-            {
-                Name = payload.Name,
-                TodoItems = []
-            };
+            var todoList = await _context.TodoList.FindAsync(payload.TodoListId);
 
-            _context.TodoList.Add(todoList);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTodoList", new { id = todoList.Id }, todoList);
-        }
-
-        // DELETE: api/todolists/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTodoList(long id)
-        {
-            var todoList = await _context.TodoList.FindAsync(id);
             if (todoList == null)
             {
                 return NotFound();
             }
 
-            _context.TodoList.Remove(todoList);
+            var todoItem = TodoItemMappper.FromCreateDto(payload, todoList);
+
+            _context.TodoItem.Add(todoItem);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetTodoItem",
+                new { id = todoItem.Id },
+                TodoItemMappper.ToOutDto(todoItem)
+            );
+        }
+
+        // DELETE: api/todoitems/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTodoItem(long id)
+        {
+            var todoItem = await _context.TodoItem.FindAsync(id);
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            _context.TodoItem.Remove(todoItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool TodoListExists(long id)
-        {
-            return (_context.TodoList?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

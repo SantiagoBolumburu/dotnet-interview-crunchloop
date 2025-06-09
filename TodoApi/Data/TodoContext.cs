@@ -14,9 +14,5 @@ public class TodoContext : DbContext
         modelBuilder.Entity<TodoList>()
             .HasMany(c => c.TodoItems)
             .WithOne(e => e.TodoList);
-
-        modelBuilder.Entity<TodoItem>()
-            .Property(c => c.CurrentState)
-            .HasConversion<string>();
     }
 }
