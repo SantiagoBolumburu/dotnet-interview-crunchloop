@@ -39,6 +39,10 @@ Apply latest Migration:
 
 `dotnet ef database update --project TodoApi`
 
+## Publish Mcp server
+
+`dotnet publish ./TodoApi.McpServer -c Release -o ./TodoApi.McpServer/out`
+
 ## Test
 
 To run tests:
