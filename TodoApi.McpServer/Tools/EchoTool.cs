@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Reflection.Metadata.Ecma335;
 using ModelContextProtocol.Server;
 
 namespace TodoApi.McpServer.Tools;
@@ -25,4 +24,3 @@ public static class EchoTool
         return todoApiUrl;
     }
 }
-

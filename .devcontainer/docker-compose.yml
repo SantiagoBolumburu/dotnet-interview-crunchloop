@@ -3,6 +3,9 @@ version: '3.8'
 services:
   app:
     image: mcr.microsoft.com/devcontainers/dotnet:8.0
+    ports:
+      - "5083:5083"
+      - "7027:7027"
     command: sleep infinity
     depends_on:
       - sqlserver

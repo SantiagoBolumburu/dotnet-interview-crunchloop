@@ -11,7 +11,10 @@ update the connection string.
 
 ## Project Initial Setup
 
-SQL Server must be running. 
+Generate developer cetificates:
+`dotnet dev-certs https`
+
+SQL Server must be running:
 
 `dotnet restore`
 `dotnet tool restore`
