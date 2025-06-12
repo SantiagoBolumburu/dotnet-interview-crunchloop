@@ -34,9 +34,7 @@ public static class TodoListsTools
         return todoListStr;
     }
 
-    // POST: api/todolists
-    //public async Task<ActionResult<TodoList>> PostTodoList(CreateTodoList payload)
-        [McpServerTool, Description("Create a new todo list.")]
+    [McpServerTool, Description("Create a new todo list.")]
     public static async Task<string> PostTodoList(RequestHandler requestHandler,
         [Description("The name of the todo list to create.")] string name)
     {
@@ -45,8 +43,6 @@ public static class TodoListsTools
         return todoListStr;
     }
 
-    // DELETE: api/todolists/5
-    // public async Task<ActionResult> DeleteTodoList(long id)
     [McpServerTool, Description("Create a new todo list.")]
     public static async Task<string> DeleteTodoList(RequestHandler requestHandler,
         [Description("The id of the todo list to delete.")] long id)

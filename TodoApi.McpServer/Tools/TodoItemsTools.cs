@@ -7,8 +7,6 @@ namespace TodoApi.McpServer.Tools;
 [McpServerToolType]
 public static class TodoItemsTools
 {
-    // GET: api/todoitems
-    //public async Task<ActionResult<IList<OutTodoItem>>> GetTodoItem()
     [McpServerTool, Description("Get a list with all the todo items.")]
     public static async Task<string> GetTodoItems(RequestHandler requestHandler)
     {
@@ -17,8 +15,6 @@ public static class TodoItemsTools
         return todoItemsStr;
     }
 
-    // GET: api/todoitems/5
-    // public async Task<ActionResult<OutTodoItem>> GetTodoItem(long id)
     [McpServerTool, Description("Get an specific todo item by it's Id.")]
     public static async Task<string> GetTodoItem(RequestHandler requestHandler,
         [Description("The id of the todo item to retrieve.")] long id)
@@ -28,8 +24,6 @@ public static class TodoItemsTools
         return todoItemStr;
     }
 
-    // PUT: api/todoitems/5
-    // public async Task<ActionResult> PutTodoItem(long id, UpdateTodoItem payload)
     [McpServerTool, Description("Modify the properties of a todo item.")]
     public static async Task<string> PutTodoItem(RequestHandler requestHandler,
         [Description("The id of the todo item to modify.")] long id,
@@ -42,8 +36,6 @@ public static class TodoItemsTools
         return todoItemStr;
     }
 
-    // POST: api/todoitems
-    // public async Task<ActionResult<OutTodoItem>> PostTodoItem(CreateTodoItem payload)
     [McpServerTool, Description("Create a new todo item.")]
     public static async Task<string> PostTodoItem(RequestHandler requestHandler,
         [Description("The id of the todo list that the new todo item belongs to.")] long todoListId,
@@ -56,8 +48,6 @@ public static class TodoItemsTools
         return todoItemStr;
     }
 
-    // DELETE: api/todoitems/5
-    // public async Task<ActionResult> DeleteTodoItem(long id)
     [McpServerTool, Description("Create a new todo item.")]
     public static async Task<string> DeleteTodoItem(RequestHandler requestHandler,
         [Description("The id of the todo item to delete.")] long id)
