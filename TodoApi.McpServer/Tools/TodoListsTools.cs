@@ -1,40 +1,58 @@
 using System.ComponentModel;
 using ModelContextProtocol.Server;
+using TodoApi.McpServer.Http;
 
 namespace TodoApi.McpServer.Tools;
 
 [McpServerToolType]
 public static class TodoListsTools
 {
-    [McpServerTool, Description("Echos the message back to the client.")]
-    public static string Echo(string message) => $"Hello from C#: {message}";
-
-
-    [McpServerTool, Description("Echos in reverse the sent.")]
-    public static string ReverseEcho(string message) => new string(message.Reverse().ToArray());
-
-
-    [McpServerTool, Description("Returns the TodoAPI URL.")]
-    public static string GetTodoApiUrl()
+    [McpServerTool, Description("Get a list of all the todo lists.")]
+    public static async Task<string> GetTodoLists(RequestHandler requestHandler)
     {
-        string todoApiUrl = Environment.GetEnvironmentVariable("TODO_API_URL") ?? "Env var not prosent";
+        var todoListsStr = await requestHandler.GetTodoLists();
 
-        return todoApiUrl;
+        return todoListsStr;
     }
 
+    [McpServerTool, Description("Get an specific todo list by it's Id.")]
+    public static async Task<string> GetTodoList(RequestHandler requestHandler,
+        [Description("The id of the todo list to retrieve.")] long id)
+    {
+        string todoListStr = await requestHandler.GetTodoLists(id);
 
-    // GET: api/todolists
-    // public async Task<ActionResult<IList<OutTodoList>>> GetTodoLists()
+        return todoListStr;
+    }
 
-    // GET: api/todolists/5
-    // public async Task<ActionResult<OutTodoList>> GetTodoList(long id)
+    [McpServerTool, Description("Modify the properties of a todo list.")]
+    public static async Task<string> PutTodoList(RequestHandler requestHandler,
+        [Description("The id of the todo list to modify.")] long id,
+        [Description("The name of the todo list to modify.")] string name)
+    {
+        string todoListStr = await requestHandler.PutTodoList(id, name);
 
-    // PUT: api/todolists/5
-    // public async Task<ActionResult> PutTodoList(long id, UpdateTodoList payload)
+        return todoListStr;
+    }
 
     // POST: api/todolists
     //public async Task<ActionResult<TodoList>> PostTodoList(CreateTodoList payload)
+        [McpServerTool, Description("Create a new todo list.")]
+    public static async Task<string> PostTodoList(RequestHandler requestHandler,
+        [Description("The name of the todo list to create.")] string name)
+    {
+        string todoListStr = await requestHandler.PostTodoList(name);
+
+        return todoListStr;
+    }
 
     // DELETE: api/todolists/5
     // public async Task<ActionResult> DeleteTodoList(long id)
+    [McpServerTool, Description("Create a new todo list.")]
+    public static async Task<string> DeleteTodoList(RequestHandler requestHandler,
+        [Description("The id of the todo list to delete.")] long id)
+    {
+        string message = await requestHandler.DeleteTodoList(id);
+
+        return message;
+    }
 }
