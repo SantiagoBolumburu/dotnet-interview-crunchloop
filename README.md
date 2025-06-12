@@ -8,9 +8,10 @@ This is a simple Todo List API built in .NET 8. This project is currently being 
 
 ## Pre-requisites
 
-* **SQL Server Database**: provisioned on the project's devcontainer (explained on next section)
+* **SQL Server Database**: provisioned on the project's devcontainer (explained on next section).
 * **MCP Client**: this guide was written based of **Claude Desktop**.
-* **Dotnet SDK**: `.Net 8.0`
+* **Dotnet SDK**: the version `.Net 8.0`.
+* **Docker**: optional but recomended.
 
 ## Database
 
@@ -71,7 +72,7 @@ Here is how to do it on **Claude Desktop**:
 }
 ```
 
-
+*If ran out of a container, then the API will run on the URL: `http://0.0.0.0:5083`. 
 
 
 # For Development
