@@ -1,10 +1,10 @@
-# dotnet-interview / TodoApi
+# Summary
 
-[![Open in Coder](https://dev.crunchloop.io/open-in-coder.svg)](https://dev.crunchloop.io/templates/fly-containers/workspace?param.Git%20Repository=git@github.com:crunchloop/dotnet-interview.git)
+This is a .Net project that consists of two parts: 
+* An API for managing "Todo Lists" and their "Todo Items". 
+* And an MCP server that implements tools to use that API.
 
-This is a simple Todo List API built in .NET 8. This project is currently being used for .NET full-stack candidates.
-
-# Execution setup
+# Setup and Execution
 
 ## Pre-requisites
 
@@ -95,13 +95,20 @@ To run tests:
 
 Check integration tests at: (https://github.com/crunchloop/interview-tests)
 
-# Other
 
-## Contact
+# Information about the template
+
+## dotnet-interview / TodoApi
+
+[![Open in Coder](https://dev.crunchloop.io/open-in-coder.svg)](https://dev.crunchloop.io/templates/fly-containers/workspace?param.Git%20Repository=git@github.com:crunchloop/dotnet-interview.git)
+
+This is a simple Todo List API built in .NET 8. This project is currently being used for .NET full-stack candidates.
+
+### Contact
 
 - Martín Fernández (mfernandez@crunchloop.io)
 
-## About Crunchloop
+### About Crunchloop
 
 ![crunchloop](https://crunchloop.io/logo-blue.png)
 
